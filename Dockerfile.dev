@@ -1,10 +1,10 @@
 FROM node:alpine as builder
 WORKDIR /app
-COPY package.json .
+COPY package.json /app
 RUN npm install
-COPY . .
-RUN CI=true npm test
+COPY . /app
+
 RUN npm run build
 
-FROM nginx
+FROM nginx:latest
 COPY --from=builder /app/build /usr/share/nginx/html
