@@ -1,13 +1,11 @@
 FROM node:alpine as builder
-WORKDIR /app
-ADD railsapp/Gemfile Gemfile
-ADD railsapp/Gemfile.lock Gemfile.lock
-RUN bundle install
-COPY package.json /app
+WORKDIR '/app'
+COPY package*.json ./
 RUN npm install
-COPY . /app
+COPY . .
 
 RUN npm run build
 
-FROM nginx:latest
+FROM nginx
+EXPOSE 80
 COPY --from=builder /app/build /usr/share/nginx/html
