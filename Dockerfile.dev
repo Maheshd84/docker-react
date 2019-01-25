@@ -1,5 +1,8 @@
 FROM node:alpine as builder
 WORKDIR /app
+ADD railsapp/Gemfile Gemfile
+ADD railsapp/Gemfile.lock Gemfile.lock
+RUN bundle install
 COPY package.json /app
 RUN npm install
 COPY . /app
